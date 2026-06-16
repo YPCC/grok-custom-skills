@@ -1,0 +1,78 @@
+@prefix : <https://nccn.org/guidelines/colon-cancer/v2.2026#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix schema: <http://schema.org/>.
+@prefix snomed: <http://snomed.info/id/>.
+@prefix prov: <http://www.w3.org/ns/prov#>.
+@prefix dct: <http://purl.org/dc/terms/>.
+
+# Main Document
+:NCCN_Colon_Cancer_v2.2026 a schema:MedicalGuideline, schema:CreativeWork ;
+    rdfs:label "NCCN Clinical Practice Guidelines in Oncology (NCCN Guidelines®) Colon Cancer Version 2.2026" ;
+    schema:version "2.2026" ;
+    schema:datePublished "2026-04-07" ;
+    schema:publisher "National Comprehensive Cancer Network (NCCN)" ;
+    schema:url "https://www.nccn.org/professionals/physician_gls/pdf/colon.pdf" ;
+    prov:wasDerivedFrom <file:///home/workdir/attachments/Safari.pdf> ;
+    dct:source "NCCN Guidelines Version 2.2026, 04/07/26" .
+
+# Key 2026 Update: PI3K Pathway + Aspirin Recommendation
+:PI3K_Pathway_Aspirin_Recommendation_2026 a schema:MedicalTherapy, :ClinicalRecommendation ;
+    rdfs:label "Aspirin for Stage II/III CRC with Somatic PI3K Pathway Alterations" ;
+    rdfs:comment "For stage II and III CRC with somatic PI3K pathway alterations, start aspirin 100–162 mg PO daily for 3 years after recovery from surgery (concurrent with chemotherapy if given)." ;
+    schema:indication :Stage_II_III_Colon_Cancer ;
+    :requiresMolecularProfiling true ;
+    :aspirinDose "100-162 mg PO daily for 3 years" ;
+    prov:wasDerivedFrom :NCCN_Colon_Cancer_v2.2026 ;
+    :appliesToStage "Stage II", "Stage III" ;
+    :evidenceLevel "Category 2A" .
+
+# Molecular Profiling Requirement (new emphasis)
+:MolecularProfiling_PI3K_StageII_III a schema:MedicalTest, :BiomarkerTest ;
+    rdfs:label "Molecular Profiling including Somatic PI3K Pathway Alterations for Stage II and III CRC" ;
+    rdfs:comment "Molecular profiling, to include somatic PI3K pathway alterations, should be done on all stage II and III CRC tumors." ;
+    schema:code snomed:405824009 ; # Molecular genetic test
+    :testsFor :PI3K_Pathway_Alterations ;
+    prov:wasDerivedFrom :NCCN_Colon_Cancer_v2.2026 .
+
+:PI3K_Pathway_Alterations a schema:MedicalCondition ;
+    rdfs:label "Somatic PI3K Pathway Alterations" ;
+    :includes "PIK3CA exon 9 and 20 mutations", 
+              "Other PIK3CA mutations", 
+              "PIK3R1 mutations", 
+              "PTEN mutations", 
+              "Deep deletions of PTEN" .
+
+# Biomarker Testing Workflow (strengthened in 2026)
+:BiomarkerTesting_2026 a schema:MedicalTest ;
+    rdfs:label "Rapid Biomarker Testing at Diagnosis (MGPT/NGS)" ;
+    rdfs:comment "Biomarker testing ordered as rapidly as possible following diagnosis as part of multigene panel testing (MGPT). Includes RAS, BRAF V600E, HER2 (ERBB2), MMR/MSI, and now explicitly PI3K pathway." ;
+    :includesTest :RAS_BRAF_Testing, :HER2_Testing, :MMR_MSI_Testing, :PI3K_Pathway_Testing ;
+    prov:wasDerivedFrom :NCCN_Colon_Cancer_v2.2026 .
+
+# Decision Branch: pMMR/MSS vs dMMR/MSI-H
+:pMMR_MSS_Pathway a :ClinicalPathway ;
+    rdfs:label "pMMR/MSS Colon Cancer Treatment Pathway" ;
+    :hasBiomarkerRequirement :pMMR_MSS_Status .
+
+:dMMR_MSIH_Pathway a :ClinicalPathway ;
+    rdfs:label "dMMR/MSI-H or POLE/POLD1 Ultra-Hypermutated Colon Cancer Pathway" ;
+    :hasBiomarkerRequirement :dMMR_MSIH_Status ;
+    :newIn2026 :NeoadjuvantCheckpointInhibitor_T4_Bulky, :Atezolizumab_Adjuvant_Options .
+
+:NeoadjuvantCheckpointInhibitor_T4_Bulky a schema:MedicalTherapy ;
+    rdfs:label "Neoadjuvant Checkpoint Inhibitor Immunotherapy for T4 or Bulky Primary (dMMR/MSI-H)" ;
+    prov:wasDerivedFrom :NCCN_Colon_Cancer_v2.2026 .
+
+# Physical Activity Recommendation (strengthened)
+:PhysicalActivity_Counseling_2026 a schema:MedicalTherapy, schema:HealthAndWellness ;
+    rdfs:label "Physical Activity Counseling for Colon Cancer Patients" ;
+    rdfs:comment "Discuss and facilitate options to achieve goal of at least 150 minutes of moderate to vigorous physical activity per week." ;
+    prov:wasDerivedFrom :NCCN_Colon_Cancer_v2.2026 .
+
+# Provenance Note
+:NCCN_v2.2026_Update a prov:Activity ;
+    rdfs:label "NCCN Colon Cancer Guidelines Version 2.2026 Update" ;
+    prov:generated :PI3K_Pathway_Aspirin_Recommendation_2026, :MolecularProfiling_PI3K_StageII_III, :NeoadjuvantCheckpointInhibitor_T4_Bulky ;
+    prov:used :NCCN_Colon_Cancer_v2.2026 .
