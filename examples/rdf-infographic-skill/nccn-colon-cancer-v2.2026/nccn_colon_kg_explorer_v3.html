@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCCN Colon Cancer v2.2026 • KG Explorer v3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .font-display { font-family: 'Space Grotesk', 'Inter', sans-serif; font-weight: 600; }
+        
+        .healthcare-gradient { background: linear-gradient(135deg, #0A66C2, #1E40AF); }
+        
+        .section-header {
+            font-size: 0.7rem; letter-spacing: -.02em; font-weight: 700; text-transform: uppercase; color: #64748b;
+        }
+
+        .cy-container {
+            border-radius: 20px;
+            box-shadow: 0 10px 15px -3px rgb(15 23 42 / 0.08), 0 4px 6px -4px rgb(15 23 42 / 0.08);
+            background: #f8fafc;
+        }
+
+        .timeline-horizontal {
+            scrollbar-width: thin;
+        }
+
+        .journey-step {
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        .journey-step:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .metric-value { font-feature-settings: "ss02"; }
+        
+        .cy-node-label {
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+    <!-- Top Navigation -->
+    <div class="border-b bg-white sticky top-0 z-50">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-x-4">
+                    <div class="flex items-center gap-x-3">
+                        <div class="w-9 h-9 healthcare-gradient rounded-2xl flex items-center justify-center shadow-inner ring-1 ring-white/30">
+                            <i class="fa-solid fa-book-medical text-white text-2xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-display text-2xl tracking-[-1.5px] font-semibold text-slate-900">NCCN Colon Cancer</div>
+                            <div class="text-[10px] text-slate-500 -mt-1.5 font-mono">v2.2026 • Expanded KG</div>
+                        </div>
+                    </div>
+                    <div class="px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-700 rounded-3xl flex items-center gap-x-1.5">
+                        <i class="fa-solid fa-check-double"></i>
+                        <span>v3 • 140+ triples</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-x-2">
+                    <button onclick="copyInfographicPrompt()" class="px-4 py-2 text-sm font-semibold flex items-center gap-x-2 bg-white hover:bg-slate-50 border border-slate-300 transition-all rounded-3xl text-slate-700 shadow-sm">
+                        <i class="fa-solid fa-magic"></i>
+                        <span>Generate Static Infographic</span>
+                    </button>
+                    <button onclick="downloadTurtle()" class="px-4 py-2 text-sm font-semibold flex items-center gap-x-2 bg-slate-900 hover:bg-slate-800 text-white rounded-3xl shadow-sm">
+                        <i class="fa-solid fa-download"></i>
+                        <span>Download RDF</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-screen-2xl mx-auto px-8 pt-8 pb-16">
+        
+        <!-- Hero -->
+        <div class="mb-8">
+            <div class="flex items-end justify-between">
+                <div>
+                    <div class="inline-flex items-center gap-x-2 mb-3">
+                        <span class="px-3 py-1 text-xs font-bold tracking-widest bg-amber-100 text-amber-700 rounded-3xl">EXPANDED v3</span>
+                        <span class="text-xs text-slate-500">• PI3K details • dMMR updates • Systemic therapy • Surgery principles</span>
+                    </div>
+                    <h1 class="font-display text-5xl tracking-[-2px] font-semibold text-slate-900 leading-none">2026 NCCN Colon Cancer<br>Knowledge Graph</h1>
+                    <p class="mt-3 max-w-2xl text-lg text-slate-600">Biomarker-driven pathways, new PI3K-aspirin mandate, expanded immunotherapy options, and key principles from surgery &amp; systemic therapy sections.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Horizontal Patient Journey Timeline -->
+        <div class="mb-8">
+            <div class="section-header mb-3 px-1 flex items-center gap-x-2">
+                <i class="fa-solid fa-route"></i>
+                <span>Patient Journey Timeline (2026 Perspective)</span>
+            </div>
+            
+            <div class="bg-white border border-slate-200 rounded-3xl p-6 overflow-x-auto timeline-horizontal">
+                <div class="flex items-center gap-x-3 min-w-[1100px]">
+                    <!-- Step 1 -->
+                    <div onclick="highlightJourneyNode('diagnosis')" class="journey-step flex-shrink-0 w-52 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-2xl p-4 cursor-pointer">
+                        <div class="flex items-center gap-x-2 mb-2">
+                            <i class="fa-solid fa-stethoscope text-slate-500"></i>
+                            <div class="font-semibold text-sm">1. Diagnosis &amp; Workup</div>
+                        </div>
+                        <div class="text-xs text-slate-600">Colonoscopy, biopsy, MMR/MSI, PI3K testing (new), C/A/P CT, CEA</div>
+                    </div>
+                    
+                    <div class="flex-shrink-0 text-slate-300"><i class="fa-solid fa-arrow-right"></i></div>
+                    
+                    <!-- Step 2 -->
+                    <div onclick="highlightJourneyNode('biomarker')" class="journey-step flex-shrink-0 w-52 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-2xl p-4 cursor-pointer">
+                        <div class="flex items-center gap-x-2 mb-2">
+                            <i class="fa-solid fa-vial text-blue-600"></i>
+                            <div class="font-semibold text-sm">2. Biomarker Testing</div>
+                        </div>
+                        <div class="text-xs text-slate-600">Rapid MGPT: RAS, BRAF V600E, HER2, PI3K pathway, MMR/MSI</div>
+                    </div>
+                    
+                    <div class="flex-shrink-0 text-slate-300"><i class="fa-solid fa-arrow-right"></i></div>
+                    
+                    <!-- Step 3 -->
+                    <div onclick="highlightJourneyNode('surgery')" class="journey-step flex-shrink-0 w-52 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-2xl p-4 cursor-pointer">
+                        <div class="flex items-center gap-x-2 mb-2">
+                            <i class="fa-solid fa-user-md text-emerald-600"></i>
+                            <div class="font-semibold text-sm">3. Surgery</div>
+                        </div>
+                        <div class="text-xs text-slate-600">Colectomy + en bloc LN. Liver/lung oligomet: Thermal ablation prioritized ≤3cm (COLLISION)</div>
+                    </div>
+                    
+                    <div class="flex-shrink-0 text-slate-300"><i class="fa-solid fa-arrow-right"></i></div>
+                    
+                    <!-- Step 4 -->
+                    <div onclick="highlightJourneyNode('adjuvant')" class="journey-step flex-shrink-0 w-60 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-2xl p-4 cursor-pointer">
+                        <div class="flex items-center gap-x-2 mb-2">
+                            <i class="fa-solid fa-pills text-amber-600"></i>
+                            <div class="font-semibold text-sm">4. Adjuvant (by Biomarker)</div>
+                        </div>
+                        <div class="text-xs text-slate-600">pMMR: FOLFOX/CAPEOX ± aspirin (if PI3K+)<br>dMMR: FOLFOX + Atezolizumab (new)</div>
+                    </div>
+                    
+                    <div class="flex-shrink-0 text-slate-300"><i class="fa-solid fa-arrow-right"></i></div>
+                    
+                    <!-- Step 5 -->
+                    <div onclick="highlightJourneyNode('surveillance')" class="journey-step flex-shrink-0 w-52 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-2xl p-4 cursor-pointer">
+                        <div class="flex items-center gap-x-2 mb-2">
+                            <i class="fa-solid fa-chart-line text-purple-600"></i>
+                            <div class="font-semibold text-sm">5. Surveillance / Metastatic</div>
+                        </div>
+                        <div class="text-xs text-slate-600">CEA, CT, Colonoscopy. Metastatic: Biomarker-driven systemic therapy (Encorafenib, IO, HER2, KRAS G12C)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+            
+            <!-- Left: Details + Filters -->
+            <div class="xl:col-span-3 space-y-6">
+                
+                <!-- PI3K Details Card -->
+                <div class="bg-white border border-amber-200 rounded-3xl p-5">
+                    <div class="flex items-center gap-x-2 mb-3">
+                        <i class="fa-solid fa-dna text-amber-600"></i>
+                        <div class="font-semibold">PI3K Pathway Details (New 2026)</div>
+                    </div>
+                    <div class="text-sm text-slate-700 space-y-2">
+                        <div><strong>Alterations included:</strong> PIK3CA exon 9/20, other PIK3CA, PIK3R1, PTEN mutations, deep PTEN deletions</div>
+                        <div><strong>Action:</strong> Aspirin 100–162 mg PO daily × 3 years post-surgery (can be concurrent with chemo)</div>
+                        <div class="text-xs text-amber-700 font-medium mt-2">Now mandatory molecular profiling for all stage II &amp; III CRC</div>
+                    </div>
+                </div>
+
+                <!-- dMMR/MSI-H Updates -->
+                <div class="bg-white border border-purple-200 rounded-3xl p-5">
+                    <div class="flex items-center gap-x-2 mb-3">
+                        <i class="fa-solid fa-shield-halved text-purple-600"></i>
+                        <div class="font-semibold">dMMR/MSI-H Key Updates</div>
+                    </div>
+                    <div class="text-sm space-y-2 text-slate-700">
+                        <div>• <strong>Neoadjuvant IO</strong> for T4 or bulky primary (new)</div>
+                        <div>• <strong>Adjuvant</strong>: FOLFOX/CAPEOX + Atezolizumab (new options)</div>
+                        <div>• New dedicated page for unresectable metastases (COL-16)</div>
+                        <div>• Expanded checkpoint inhibitors (incl. Penpulimab, more PD-L1 agents)</div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-5">
+                    <div class="section-header mb-3">Graph Filters</div>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <button onclick="filterGraph('all')" class="px-3 py-2 bg-slate-900 text-white rounded-2xl text-left">All Nodes</button>
+                        <button onclick="filterGraph('pi3k')" class="px-3 py-2 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-2xl text-left">PI3K Pathway</button>
+                        <button onclick="filterGraph('biomarker')" class="px-3 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-2xl text-left">Biomarker Testing</button>
+                        <button onclick="filterGraph('systemic')" class="px-3 py-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 rounded-2xl text-left">Systemic Therapy</button>
+                        <button onclick="filterGraph('surgery')" class="px-3 py-2 bg-teal-100 hover:bg-teal-200 text-teal-800 rounded-2xl text-left">Surgery &amp; Local</button>
+                        <button onclick="filterGraph('dmmr')" class="px-3 py-2 bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-2xl text-left">dMMR/MSI-H</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center: Cytoscape -->
+            <div class="xl:col-span-6">
+                <div class="flex items-center justify-between mb-3 px-1">
+                    <div class="font-semibold text-xl tracking-tight">Interactive Knowledge Graph</div>
+                    <div class="flex items-center gap-x-2">
+                        <select id="layout-select" onchange="changeLayout()" class="text-xs border border-slate-300 rounded-3xl px-3 py-1.5 bg-white">
+                            <option value="breadthfirst">Breadthfirst (Recommended)</option>
+                            <option value="cose">CoSE (Organic)</option>
+                            <option value="circle">Circle</option>
+                        </select>
+                        <button onclick="resetGraph()" class="text-xs px-3 py-1.5 border border-slate-300 hover:bg-white rounded-3xl flex items-center gap-x-1">
+                            <i class="fa-solid fa-undo"></i> <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="cy" class="cy-container border border-slate-200" style="height: 560px; width: 100%;"></div>
+            </div>
+
+            <!-- Right: Node Detail -->
+            <div class="xl:col-span-3">
+                <div class="bg-white border border-slate-200 rounded-3xl p-5 h-full flex flex-col">
+                    <div class="section-header mb-3">Node Details</div>
+                    <div id="node-detail" class="flex-1 text-sm">
+                        <div class="text-center py-10 text-slate-400">
+                            <i class="fa-solid fa-mouse-pointer text-4xl mb-4 opacity-30"></i>
+                            <div>Click any node in the graph</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4 border-t mt-auto space-y-2">
+                        <button onclick="exportPNG()" class="w-full py-2.5 text-sm font-semibold bg-slate-900 hover:bg-black text-white rounded-3xl flex items-center justify-center gap-x-2">
+                            <i class="fa-solid fa-download"></i> <span>Export Graph PNG</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cy;
+        
+        const graphData = {
+            nodes: [
+                // Core Document
+                { data: { id: 'doc', label: 'NCCN Colon v2.2026', type: 'document', color: '#1E40AF', size: 48 } },
+                
+                // PI3K
+                { data: { id: 'pi3k_rec', label: 'PI3K + Aspirin\n(Stage II/III)', type: 'recommendation', color: '#D97706', size: 38 } },
+                { data: { id: 'pi3k_alterations', label: 'PI3K Alterations\n(PIK3CA, PIK3R1, PTEN)', type: 'pi3k', color: '#F59E0B', size: 30 } },
+                { data: { id: 'mandatory_profiling', label: 'Mandatory Profiling\nAll Stage II/III', type: 'biomarker', color: '#3B82F6', size: 34 } },
+                
+                // Biomarker Testing
+                { data: { id: 'mgpt', label: 'Rapid MGPT\nat Diagnosis', type: 'biomarker', color: '#3B82F6', size: 32 } },
+                { data: { id: 'ras_braf', label: 'RAS + BRAF V600E', type: 'biomarker', color: '#60A5FA', size: 26 } },
+                { data: { id: 'her2', label: 'HER2 (ERBB2)', type: 'biomarker', color: '#60A5FA', size: 26 } },
+                
+                // Pathways
+                { data: { id: 'pmmr_pathway', label: 'pMMR/MSS\nPathway', type: 'pathway', color: '#2563EB', size: 34 } },
+                { data: { id: 'dmmr_pathway', label: 'dMMR/MSI-H\nPathway', type: 'pathway', color: '#7C3AED', size: 34 } },
+                
+                // dMMR Updates
+                { data: { id: 'neoadjuvant_io', label: 'Neoadjuvant IO\n(T4 / Bulky)', type: 'recommendation', color: '#A855F7', size: 30 } },
+                { data: { id: 'atezo_adjuvant', label: 'Atezolizumab +\nFOLFOX/CAPEOX', type: 'recommendation', color: '#A855F7', size: 30 } },
+                { data: { id: 'col16_unresectable', label: 'Unresectable\nMetastases (COL-16)', type: 'pathway', color: '#7C3AED', size: 28 } },
+                
+                // Systemic Therapy (COL-D)
+                { data: { id: 'braf600e', label: 'BRAF V600E\nEncorafenib + EGFRi ± Chemo', type: 'systemic', color: '#10B981', size: 28 } },
+                { data: { id: 'her2_targeted', label: 'HER2 Targeted\nTucatinib/Pertuzumab + Trastuzumab', type: 'systemic', color: '#10B981', size: 28 } },
+                { data: { id: 'kras_g12c', label: 'KRAS G12C\nAdagrasib/Sotorasib + EGFRi', type: 'systemic', color: '#10B981', size: 28 } },
+                { data: { id: 'checkpoint_io', label: 'Checkpoint Inhibitors\n(Pembro, Nivo+Ipi, new agents)', type: 'systemic', color: '#10B981', size: 28 } },
+                
+                // Surgery & Local Therapy
+                { data: { id: 'surgery_principles', label: 'Surgery Principles\n(COL-C)', type: 'surgery', color: '#14B8A6', size: 30 } },
+                { data: { id: 'liver_local', label: 'Liver Oligomet\nThermal Ablation ≤3cm\n(COLLISION trial)', type: 'surgery', color: '#14B8A6', size: 28 } },
+                { data: { id: 'lung_local', label: 'Lung Metastases\nSurgery / Ablation / SBRT', type: 'surgery', color: '#14B8A6', size: 28 } },
+                
+                // Other
+                { data: { id: 'activity', label: '150 min/week\nPhysical Activity', type: 'wellness', color: '#059669', size: 26 } },
+            ],
+            
+            edges: [
+                { data: { source: 'doc', target: 'pi3k_rec', label: 'new recommendation' } },
+                { data: { source: 'pi3k_rec', target: 'pi3k_alterations', label: 'targets' } },
+                { data: { source: 'doc', target: 'mandatory_profiling', label: 'requires' } },
+                { data: { source: 'pi3k_rec', target: 'mandatory_profiling', label: 'drives' } },
+                
+                { data: { source: 'doc', target: 'mgpt', label: 'updates' } },
+                { data: { source: 'mgpt', target: 'ras_braf', label: 'includes' } },
+                { data: { source: 'mgpt', target: 'her2', label: 'includes' } },
+                { data: { source: 'mgpt', target: 'pi3k_alterations', label: 'now includes' } },
+                
+                { data: { source: 'doc', target: 'pmmr_pathway', label: 'defines' } },
+                { data: { source: 'doc', target: 'dmmr_pathway', label: 'defines' } },
+                
+                { data: { source: 'dmmr_pathway', target: 'neoadjuvant_io', label: 'new 2026' } },
+                { data: { source: 'dmmr_pathway', target: 'atezo_adjuvant', label: 'new 2026' } },
+                { data: { source: 'dmmr_pathway', target: 'col16_unresectable', label: 'new page' } },
+                
+                { data: { source: 'pmmr_pathway', target: 'braf600e', label: 'targeted option' } },
+                { data: { source: 'dmmr_pathway', target: 'checkpoint_io', label: 'preferred' } },
+                { data: { source: 'pmmr_pathway', target: 'her2_targeted', label: 'if HER2+' } },
+                { data: { source: 'pmmr_pathway', target: 'kras_g12c', label: 'if KRAS G12C' } },
+                
+                { data: { source: 'doc', target: 'surgery_principles', label: 'principles' } },
+                { data: { source: 'surgery_principles', target: 'liver_local', label: 'liver oligomet' } },
+                { data: { source: 'surgery_principles', target: 'lung_local', label: 'lung met' } },
+                
+                { data: { source: 'doc', target: 'activity', label: 'strengthens' } },
+            ]
+        };
+
+        function initCytoscape() {
+            const container = document.getElementById('cy');
+            
+            cy = cytoscape({
+                container: container,
+                elements: graphData,
+                style: [
+                    {
+                        selector: 'node',
+                        style: {
+                            'label': 'data(label)',
+                            'text-valign': 'center',
+                            'text-halign': 'center',
+                            'font-size': '10px',
+                            'font-weight': '600',
+                            'color': '#1e2937',
+                            'text-wrap': 'wrap',
+                            'text-max-width': '85px',
+                            'background-color': 'data(color)',
+                            'border-color': '#475569',
+                            'border-width': 2.5,
+                            'width': 'data(size)',
+                            'height': 'data(size)',
+                            'padding': '6px',
+                            'shape': 'round-rectangle',
+                            'text-outline-width': 1,
+                            'text-outline-color': '#ffffff'
+                        }
+                    },
+                    {
+                        selector: 'edge',
+                        style: {
+                            'width': 1.6,
+                            'line-color': '#94a3b8',
+                            'target-arrow-color': '#64748b',
+                            'target-arrow-shape': 'triangle',
+                            'curve-style': 'bezier',
+                            'label': 'data(label)',
+                            'font-size': '8px',
+                            'color': '#64748b',
+                            'text-rotation': 'autorotate',
+                            'text-margin-y': -4
+                        }
+                    },
+                    {
+                        selector: '.filtered',
+                        style: { 'opacity': 0.12, 'transition-property': 'opacity', 'transition-duration': '0.2s' }
+                    },
+                    {
+                        selector: 'node[type = "recommendation"]', 
+                        style: { 'border-color': '#D97706', 'border-width': 3 }
+                    },
+                    {
+                        selector: 'node[type = "pathway"]', 
+                        style: { 'border-color': '#6366F1', 'border-width': 3 }
+                    }
+                ],
+                layout: {
+                    name: 'breadthfirst',
+                    directed: true,
+                    padding: 45,
+                    spacingFactor: 1.45,
+                    avoidOverlap: true
+                }
+            });
+
+            cy.on('tap', 'node', function(evt) {
+                showNodeDetail(evt.target.data());
+            });
+
+            cy.on('mouseover', 'node', evt => evt.target.animate({ style: { 'border-width': 4 } }, { duration: 120 }));
+            cy.on('mouseout', 'node', evt => evt.target.animate({ style: { 'border-width': 2.5 } }, { duration: 120 }));
+        }
+
+        function changeLayout() {
+            const name = document.getElementById('layout-select').value;
+            cy.layout({ name: name, directed: true, padding: 50, spacingFactor: 1.5, avoidOverlap: true }).run();
+        }
+
+        function filterGraph(filterType) {
+            cy.nodes().removeClass('filtered');
+            
+            if (filterType === 'all') return;
+
+            cy.nodes().forEach(node => {
+                const type = node.data('type');
+                let match = false;
+
+                if (filterType === 'pi3k' && (type === 'pi3k' || node.id().includes('pi3k'))) match = true;
+                if (filterType === 'biomarker' && type === 'biomarker') match = true;
+                if (filterType === 'systemic' && type === 'systemic') match = true;
+                if (filterType === 'surgery' && type === 'surgery') match = true;
+                if (filterType === 'dmmr' && (node.id().includes('dmmr') || node.id().includes('neoadjuvant') || node.id().includes('atezo'))) match = true;
+
+                if (!match) node.addClass('filtered');
+            });
+        }
+
+        function showNodeDetail(data) {
+            const el = document.getElementById('node-detail');
+            let content = `<div class="font-semibold text-lg tracking-tight mb-1">${data.label.replace(/\n/g, ' ')}</div>`;
+            content += `<div class="text-xs mb-3 text-slate-500">${data.type.toUpperCase()}</div>`;
+
+            if (data.id === 'pi3k_rec') {
+                content += `<div class="text-sm">Aspirin recommended for 3 years in stage II/III with PI3K pathway alterations. Now requires universal molecular profiling.</div>`;
+            } else if (data.id === 'neoadjuvant_io') {
+                content += `<div class="text-sm text-purple-700">New in v2.2026 for T4 or bulky primary dMMR/MSI-H tumors.</div>`;
+            } else if (data.id === 'liver_local') {
+                content += `<div class="text-sm">Thermal ablation prioritized over resection for lesions ≤3 cm (COLLISION trial evidence).</div>`;
+            } else if (data.id.includes('braf') || data.id.includes('her2') || data.id.includes('kras')) {
+                content += `<div class="text-sm">Biomarker-specific targeted therapy option in advanced disease (COL-D).</div>`;
+            }
+
+            content += `<div class="mt-4"><button onclick="window.open('https://linkeddata.uriburner.com/describe/?url=https://nccn.org/guidelines/colon-cancer/v2.2026#${data.id}', '_blank')" class="text-xs px-4 py-1.5 border rounded-3xl w-full hover:bg-slate-50">Open in Resolver</button></div>`;
+            el.innerHTML = content;
+        }
+
+        function resetGraph() {
+            cy.nodes().removeClass('filtered');
+            cy.layout({ name: 'breadthfirst', directed: true, padding: 50, spacingFactor: 1.45 }).run();
+            document.getElementById('node-detail').innerHTML = `<div class="text-center py-10 text-slate-400"><i class="fa-solid fa-mouse-pointer text-4xl mb-4 opacity-30"></i><div>Click any node</div></div>`;
+        }
+
+        function highlightJourneyNode(nodeId) {
+            if (!cy) return;
+            cy.nodes().removeClass('filtered');
+            const target = cy.getElementById(nodeId);
+            if (target.length > 0) {
+                cy.fit(target, 80);
+                target.animate({ style: { 'border-width': 5, 'border-color': '#F59E0B' } }, { duration: 300 });
+                setTimeout(() => {
+                    target.animate({ style: { 'border-width': 2.5, 'border-color': '#475569' } }, { duration: 600 });
+                }, 1400);
+                showNodeDetail(target.data());
+            }
+        }
+
+        function exportPNG() {
+            const png64 = cy.png({ full: true, scale: 2.5 });
+            const a = document.createElement('a');
+            a.download = 'nccn_colon_kg_v3.png';
+            a.href = png64;
+            a.click();
+        }
+
+        function copyInfographicPrompt() {
+            const prompt = `Create a professional McKinsey/Deloitte-style healthcare infographic for the 2026 NCCN Colon Cancer Guideline updates.
+
+Key elements to visualize:
+- New mandatory PI3K pathway testing + aspirin recommendation for stage II/III
+- Expanded biomarker testing (MGPT) at diagnosis
+- dMMR/MSI-H pathway: Neoadjuvant IO for T4/bulky + adjuvant atezolizumab options
+- Biomarker-driven systemic therapy branches (BRAF V600E, HER2, KRAS G12C, IO)
+- Surgery & local therapy principles (thermal ablation priority ≤3cm per COLLISION trial)
+- Patient journey from diagnosis → biomarkers → surgery → adjuvant → surveillance/metastatic
+
+Use clean white background, blue/purple/green palette, flat icons, and clear pathway splits. Suitable for clinical leadership and trial activation discussions.`;
+
+            navigator.clipboard.writeText(prompt).then(() => {
+                const btns = document.querySelectorAll('button');
+                btns.forEach(b => { if (b.innerText.includes('Infographic')) b.innerHTML = `<i class="fa-solid fa-check"></i> Prompt copied`; });
+                setTimeout(() => location.reload(), 1800);
+            });
+        }
+
+        function downloadTurtle() {
+            const link = document.createElement('a');
+            link.href = '/home/workdir/artifacts/nccn_colon_cancer_2026_updates.ttl';
+            link.download = 'nccn_colon_cancer_2026_v3.ttl';
+            link.click();
+        }
+
+        function init() {
+            initCytoscape();
+            
+            // Make journey steps nicer on hover
+            console.log('%c[NCCN KG Explorer v3] Loaded with expanded nodes, patient journey timeline, and refined Cytoscape styling.', 'color:#64748b');
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

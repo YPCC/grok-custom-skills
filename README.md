@@ -1,43 +1,58 @@
-# Grok Custom Skills Repository
+# Grok Custom Skills
 
-This repository contains custom skills developed for Grok (by xAI) to extend its capabilities, particularly in healthcare AI, knowledge graph generation, multi-agent systems, and clinical workflows.
+Custom skills for Grok (xAI) focused on healthcare, knowledge graphs, and clinical workflows.
 
-## Skills Included
+## Skills
 
-### RDF & Knowledge Graph Skills
+### rdf-kg-generator
+**Generate standards-compliant RDF Knowledge Graphs** (Turtle default) from documents, clinical protocols, research articles, PDFs, or URLs.
 
-These skills were developed inspired by the excellent work in the [OpenLinkSoftware/ai-agent-skills](https://github.com/OpenLinkSoftware/ai-agent-skills) repository (specifically `kg-generator` and `rdf-infographic-skill`).
+**Key features (adapted from OpenLinkSoftware/ai-agent-skills):**
+- Strong healthcare grounding (SNOMED CT, RxNorm, LOINC priority)
+- Provenance & nanopublication patterns
+- Two templates: Generic + Healthcare/Clinical (with self-audit checklists)
+- Script-assisted validation mode using `rdflib`
+- Designed for GraphDB, patient timelines, and clinical decision support
 
-- **rdf-kg-generator**  
-  Generates high-quality, standards-compliant RDF Knowledge Graphs (Turtle by default) from documents, clinical protocols, research articles, or URLs. Strong focus on healthcare grounding (SNOMED, RxNorm, LOINC), provenance, and PI3K pathway / biomarker workflows.
+**Usage examples:**
+- "Generate a knowledge graph from this NCCN guideline"
+- "Create RDF-Turtle for the 2026 Colon Cancer updates with PI3K pathway"
+- "Build a comorbidity KG for colorectal cancer + diabetes"
 
-- **rdf-infographic-skill**  
-  Companion skill that turns RDF KGs into interactive single-file HTML infographics with embedded Knowledge Graph Explorer, floating navigation, theme toggle, and Markdown companions. Excellent for clinical decision support visualizations and leadership reviews.
+**Example output:** `examples/rdf-kg-generator/nccn-colon-cancer-v2.2026/nccn_colon_cancer_2026_updates.ttl`
 
-### Other Skills
-
-- **okf-code2prompt-workflow**  
-  Advanced pipeline combining `code2prompt` for high-quality codebase ingestion with Open Knowledge Format (OKF) bundle generation.
-
-- **okf-repo-knowledge-generator**  
-  Generates structured OKF knowledge bundles from repositories.
-
-## Examples
-
-See the `examples/` directory for real-world demonstrations:
-
-- `examples/nccn-colon-cancer-v2.2026/` — End-to-end example using the 2026 NCCN Colon Cancer Guidelines (PI3K-aspirin recommendation, biomarker pathways, dMMR/MSI-H updates).
-
-## Usage
-
-See individual `skills/*/SKILL.md` files for detailed instructions and trigger phrases.
-
-## Inspiration & Credits
-
-The RDF-related skills (`rdf-kg-generator` and `rdf-infographic-skill`) draw significant inspiration and architectural patterns from:
-
-- [OpenLinkSoftware/ai-agent-skills](https://github.com/OpenLinkSoftware/ai-agent-skills) — particularly the `kg-generator` and `rdf-infographic-skill` implementations.
+**Source inspiration:** [OpenLinkSoftware/ai-agent-skills/kg-generator](https://github.com/OpenLinkSoftware/ai-agent-skills/tree/main/kg-generator) — we adopted the core architecture and extended it with healthcare-specific IRI rules, PI3K/RxNorm focus, and tighter integration with our clinical pipelines.
 
 ---
 
-Built with ❤️ for healthcare AI, clinical knowledge graphs, and responsible AI tooling.
+### rdf-infographic-skill
+**Turn RDF Knowledge Graphs into interactive single-file HTML infographics** with embedded Knowledge Graph Explorer (Cytoscape.js), floating navigation, theme toggle, resolver links, and optional Markdown companion.
+
+**Key features (adapted from OpenLinkSoftware/ai-agent-skills):**
+- RDF is always the single source of truth
+- Healthcare-optimized rendering (timelines, comorbidity clusters, biomarker pathways)
+- Patient journey timeline view + class filters
+- One-click prompt generation for static McKinsey-style infographics
+- Self-contained (CDN-based, no external dependencies at runtime)
+
+**Usage examples:**
+- "Create an interactive HTML explorer from this Turtle file"
+- "Generate a visual companion for the NCCN Colon KG with timeline emphasis"
+- "Build a stakeholder-ready infographic from the RDF"
+
+**Example output:** `examples/rdf-infographic-skill/nccn-colon-cancer-v2.2026/nccn_colon_kg_explorer_v3.html`
+
+**Source inspiration:** [OpenLinkSoftware/ai-agent-skills/rdf-infographic-skill](https://github.com/OpenLinkSoftware/ai-agent-skills/tree/main/rdf-infographic-skill) — we enhanced it with Cytoscape.js, stronger timeline/patient-journey emphasis, and direct handoff to our `infographic-generator` skill.
+
+---
+
+### Other Skills
+
+- **okf-code2prompt-workflow** — Codebase ingestion + Open Knowledge Format bundles
+- **okf-repo-knowledge-generator** — Repository to structured OKF knowledge bundles
+
+See individual `skills/*/SKILL.md` for full details and trigger phrases.
+
+---
+
+**Attribution:** The two RDF skills above were developed by adapting and extending patterns from the excellent [OpenLinkSoftware/ai-agent-skills](https://github.com/OpenLinkSoftware/ai-agent-skills) repository.
