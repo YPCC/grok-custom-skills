@@ -1,6 +1,6 @@
 # Grok Custom Skills
 
-Custom skills for Grok (xAI) focused on healthcare, knowledge graphs, and clinical workflows.
+Custom skills for Grok (xAI) focused on healthcare, knowledge graphs, clinical workflows, and responsible AI documentation.
 
 ## Skills
 
@@ -46,13 +46,35 @@ Custom skills for Grok (xAI) focused on healthcare, knowledge graphs, and clinic
 
 ---
 
+### datacard-generator
+**Generate comprehensive Data Cards** following the Google PAIR Data Cards Playbook specification from a dataset folder + associated metadata/context YAML.
+
+**Key features:**
+- Auto-analyzes folder contents (file stats, tabular schema inference via pandas, README extraction)
+- Scaffolds all 15+ core Playbook themes with tables, guidance prompts, and `[TODO]` markers
+- Supports rich context YAML for motivations, provenance, sensitivity, reflections, etc.
+- Produces clean, versionable Markdown (with YAML frontmatter) ready for PDF/DOCX conversion or leadership review
+- Strong healthcare focus (RxNorm provenance, FHIR, nanopublications, HIPAA considerations, comorbidity graphs)
+- Includes detailed specification reference and healthcare example (BioRED)
+
+**Usage examples:**
+- "Create a Data Card for this RxNorm monthly mapping folder"
+- "Generate transparency documentation for my patient triage context graph using the Google spec"
+- "Document this clinical trial metadata dataset for leadership review"
+
+**Example output:** `examples/datacard-generator/BioRED_DataCard.md` (full Data Card for the NCBI BioRED biomedical relation extraction dataset)
+
+**Source inspiration:** Google PAIR Data Cards Playbook (https://github.com/PAIR-code/datacardsplaybook and https://sites.research.google/datacardsplaybook/) — we operationalized the archived template into a practical, auto-scaffolding CLI skill tailored for healthcare AI and regulated data documentation workflows.
+
+---
+
 ### Other Skills
 
 - **okf-code2prompt-workflow** — Codebase ingestion + Open Knowledge Format bundles
 - **okf-repo-knowledge-generator** — Repository to structured OKF knowledge bundles
 
-See individual `skills/*/SKILL.md` for full details and trigger phrases.
+See individual `skills/*/SKILL.md` for full details, trigger phrases, and invocation instructions.
 
 ---
 
-**Attribution:** The two RDF skills above were developed by adapting and extending patterns from the excellent [OpenLinkSoftware/ai-agent-skills](https://github.com/OpenLinkSoftware/ai-agent-skills) repository.
+**Attribution:** The RDF skills were developed by adapting and extending patterns from [OpenLinkSoftware/ai-agent-skills](https://github.com/OpenLinkSoftware/ai-agent-skills). The `datacard-generator` skill brings the Google PAIR Data Cards Playbook into the same ecosystem for responsible AI documentation.
