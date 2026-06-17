@@ -1,3 +1,61 @@
-# Example Context YAML for Data Card Generator
-# (Full example_context.yaml content from previous write)
----
+# Example Context for RxNorm / Pharmacy Dataset
+# Copy this file and customize it for your own datasets
+
+title: "RxNorm Monthly Ingredient Mapping & Provenance Assertions"
+version: "2026-06"
+dataset_name: "pharmacy_rxnorm_mappings"
+description: |
+  Monthly updated ingredient-to-concept mappings from RxNorm (IN/PIN, RxCUI history, 
+  ATC/VA classes) with nanopublication provenance for pharmacy database synchronization.
+
+summary: "Monthly RxNorm ingredient mapping with provenance assertions for pharmacy database."
+
+# Core metadata
+author: "Yogesh Pharmacy Team"
+organization: "Your Pharmacy / Healthcare Organization"
+contact: "your.email@example.com"
+license: "Internal Use Only / CC-BY 4.0"
+
+# Key sections (expand as needed)
+motivations: |
+  Ensure accurate, traceable drug ingredient mappings for clinical decision support,
+  comorbidity analysis (e.g., diabetes), and monthly pharmacy DB updates.
+
+intended_uses: |
+  - Automated RxCUI mapping and history tracking
+  - Nanopublication assertions for change provenance
+  - Support for FHIR/RxNorm integration in patient triage and CDSS
+
+limitations: |
+  - Only covers selected high-volume medications
+  - Relies on official RxNorm release schedule
+  - Does not include patient-level data
+
+sensitive_attributes: "None (aggregate concept-level mappings only)"
+
+provenance: |
+  Derived from official RxNorm Full Release via NLM API.
+  Nanopublications use prov:wasDerivedFrom and np:supersedes.
+  Pharmacist review gate for each monthly update.
+
+transformations: |
+  - RxCUI normalization and historystatus handling
+  - IN/PIN ingredient extraction
+  - RxClass ATC/VA class mapping
+  - Conversion to Turtle/JSON-LD for KG ingestion
+
+validation: |
+  SHACL validation on nanopublications.
+  Pharmacist manual review for critical mappings (e.g., metformin, acetaminophen).
+
+sampling: "All active concepts from selected RxNorm subsets (high-frequency meds)"
+
+known_issues: "Remapped/obsolete RxCUIs require special handling per release notes."
+
+glossary_entries:
+  RxCUI: "RxNorm Concept Unique Identifier"
+  IN: "Ingredient Name"
+  PIN: "Precise Ingredient Name"
+  nanopublication: "A formal, machine-readable assertion with provenance"
+
+# Add more custom keys as needed — they will be merged into the template

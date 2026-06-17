@@ -1,5 +1,79 @@
 ---
-# (Jinja2 template content - truncated in this call for brevity; full version from previous creation)
-# In real call I would paste the full long template here.
-# For this simulation, assume full template is pushed.
+title: {{ title }}
+date: {{ date }}
+author: Grok + {{ context.get('author', 'User') }}
+version: {{ context.get('version', '1.0') }}
+dataset_name: {{ context.get('dataset_name', title) }}
 ---
+
+# {{ title }}
+
+## Summary
+{{ context.get('summary', '[TODO: Provide a 1-2 paragraph overview of the dataset, its purpose, and key characteristics.]') }}
+
+## Dataset Overview
+- **File Count**: {{ data_stats.file_count }}
+- **Total Size**: {{ "%.2f" % data_stats.total_size_mb }} MB
+- **File Types**: {{ data_stats.file_types | join(', ') }}
+
+**Schema Sample** (if tabular data detected):
+{% if data_stats.schema_sample %}
+```json
+{{ data_stats.schema_sample }}
+```
+{% else %}
+*[No tabular schema detected or pandas not available]*
+{% endif %}
+
+## Example Data Points
+{{ context.get('example_data', '[TODO: Insert 2-3 representative data samples or describe typical records.]') }}
+
+## Motivations & Intentions
+{{ context.get('motivations', '[TODO]') }}
+
+## Intended Uses & Limitations
+{{ context.get('intended_uses', '[TODO]') }}
+{{ context.get('limitations', '[TODO]') }}
+
+## Provenance & Authorship
+{{ context.get('provenance', '[TODO: Detail creation process, sources, versions, RxNorm releases, nanopublications, etc.]') }}
+
+## Access, Retention & Wipeout
+{{ context.get('access_retention', '[TODO]') }}
+
+## Sensitive Attributes & Ethics
+{{ context.get('sensitive_attributes', '[TODO]') }}
+{{ context.get('ethics', '[TODO]') }}
+
+## Transformations & Preprocessing
+{{ context.get('transformations', '[TODO]') }}
+
+## Annotations & Labeling
+{{ context.get('annotations', '[TODO]') }}
+
+## Validation & Quality Assurance
+{{ context.get('validation', '[TODO]') }}
+
+## Sampling Strategy
+{{ context.get('sampling', '[TODO]') }}
+
+## Known Applications & Benchmarks
+{{ context.get('benchmarks', '[TODO]') }}
+
+## Terms of Art / Glossary
+{% if context.get('glossary_entries') %}
+{% for term, definition in context.glossary_entries.items() %}
+- **{{ term }}**: {{ definition }}
+{% endfor %}
+{% else %}
+[TODO: Add glossary entries]
+{% endif %}
+
+## Reflections on Data
+{{ context.get('reflections', '[TODO: Lessons learned, known issues, future improvements.]') }}
+
+---
+
+**Generated on**: {{ date }} using the `datacard-generator` skill.
+
+*For full guidance, refer to `references/datacard-specification.md` and the [Google PAIR Data Cards Playbook](https://github.com/PAIR-code/datacardsplaybook).*
