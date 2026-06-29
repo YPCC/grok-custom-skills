@@ -64,7 +64,31 @@ Custom skills for Grok (xAI) focused on healthcare, knowledge graphs, clinical w
 
 **Example output:** `examples/datacard-generator/BioRED_DataCard.md` (full Data Card for the NCBI BioRED biomedical relation extraction dataset)
 
-**Source inspiration:** Google PAIR Data Cards Playbook (https://github.com/PAIR-code/datacardsplaybook and https://sites.research.google/datacardsplaybook/) — we operationalized the archived template into a practical, auto-scaffolding CLI skill tailored for healthcare AI and regulated data documentation workflows.
+**Source inspiration:** Google PAIR Data Cards Playbook (https://github.com/PAIR-code/datacardsplaybook and https://sites.research.google/datacardsplaybook/) — we operationalized the archived template into a practical, auto-saffolding CLI skill tailored for healthcare AI and regulated data documentation workflows.
+
+---
+
+### drawio-skill
+**Generate professional editable draw.io diagrams** from natural language — architecture diagrams, ERDs, UML class/sequence diagrams, flowcharts, ML/DL model architectures, network topologies, and clinical workflows.
+
+**Key features:**
+- Produces fully editable `.drawio` XML files (open directly in the free draw.io desktop app or https://app.diagrams.net)
+- Supports swimlanes, precise orthogonal edge routing, containers/groups, branded shapes, and a professional semantic color palette
+- Includes practical Python helper scripts: `DrawioDiagram` XML builder (with automatic id/escaping/style management), structural validator, and grid/layered layout tools
+- Strong healthcare & clinical focus with ready examples for patient triage systems, FHIR/GraphDB architectures, clinical trial site activation, RxNorm mapping workflows, agent orchestration, and comorbidity graphs
+- Iterative refinement loop with targeted XML edits based on user feedback
+- Complements `mermaid` output (for git-friendly diagrams) and `infographic-generator` (for high-level executive visuals)
+
+**Usage examples:**
+- "Draw an architecture diagram for the patient triage system with FHIR, GraphDB, and agent orchestrator layers in swimlanes"
+- "Create an ERD for the pharmacy drug database including RxNorm mappings and nanopublications"
+- "UML class diagram for the clinical trial site activation workflow entities"
+- "Flowchart of the IRB approval process with decision points and swimlanes for sponsor vs site"
+- "Visualize the Transformer encoder-decoder with attention layers and tensor shape annotations"
+
+**Helper scripts & references:** `skills/drawio-skill/scripts/` and `skills/drawio-skill/references/`
+
+**Source inspiration:** Adapted from [Agents365-ai/drawio-skill](https://github.com/Agents365-ai/drawio-skill) with significant customization for the Grok sandbox environment, healthcare domain needs, and seamless integration with existing skills (no external CLI or Graphviz dependency required for generation).
 
 ---
 
@@ -77,4 +101,4 @@ See individual `skills/*/SKILL.md` for full details, trigger phrases, and invoca
 
 ---
 
-**Attribution:** The RDF skills were developed by adapting and extending patterns from [OpenLinkSoftware/ai-agent-skills](https://github.com/OpenLinkSoftware/ai-agent-skills). The `datacard-generator` skill brings the Google PAIR Data Cards Playbook into the same ecosystem for responsible AI documentation.
+**Attribution:** The RDF skills were developed by adapting and extending patterns from [OpenLinkSoftware/ai-agent-skills](https://github.com/OpenLinkSoftware/ai-agent-skills). The `datacard-generator` skill brings the Google PAIR Data Cards Playbook into the same ecosystem for responsible AI documentation. The `drawio-skill` adds powerful technical diagramming capabilities tailored for clinical and knowledge-graph workflows.
