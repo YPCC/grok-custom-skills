@@ -1,6 +1,6 @@
 # Grok Custom Skills
 
-Custom skills for [Grok](https://x.ai) (xAI) — healthcare knowledge graphs, responsible AI documentation, office productivity, security review, and production engineering workflows.
+Custom skills for [Grok](https://x.ai) (xAI) — healthcare knowledge graphs, responsible AI documentation, office productivity, security review, critical analysis, and production engineering workflows.
 
 ## Installation
 
@@ -37,11 +37,36 @@ Invoke skills via slash command (`/<skill-name>`), the skills menu (`/skills`), 
 | Diagramming | `drawio-skill` |
 | Office & documents | `docx`, `xlsx`, `pptx` |
 | Security | `python-owasp-reviewer` |
-| Quality & verification | `check-work`, `code-review` |
+| Quality, Verification & Review | `check-work`, `code-review`, `scientific-strategic-review-board` |
 | Grok platform | `create-skill`, `help`, `imagine` |
 | Engineering lifecycle | 24 skills in `from-github-addyosmani-agent-skills/` |
 
 See `skills/*/SKILL.md` for full trigger phrases and invocation details.
+
+---
+
+## Scientific & Strategic Review
+
+### scientific-strategic-review-board
+
+Performs independent, evidence-based scientific and strategic reviews of research proposals, papers, architectures, product concepts, GitHub repositories, and strategic initiatives. Functions as a multi-perspective Review Board that challenges assumptions, evaluates scientific rigor, methodological soundness, strategic alignment, novelty, risks, and provides objective, calibrated recommendations.
+
+**Key features:**
+- Structured 13-section board output (Executive Summary, Hidden Assumptions categorized across 13 dimensions, Contrarian Review, Failure Modes, Novelty Analysis, Literature Gaps, Competing Designs, Red Team, Steelman, Evidence Scoring, Risk Matrix, Recommended Improvements, Final Verdict + Confidence Level)
+- Explicit separation of facts, assumptions, speculation, and unknowns
+- Multi-perspective lens (scientific/methodological, strategic/competitive, operational, ethical/regulatory)
+- Feedback-ready: ideal before publishing, funding decisions, architecture reviews, or challenging research/product thinking
+- High intellectual honesty with calibrated confidence scoring
+
+**Trigger phrases (examples):**
+- "scientific review of this proposal"
+- "strategic critique of this architecture"
+- "Act as review board for this research idea"
+- "Challenge my thinking on this FHIR validator with scientific and strategic lens"
+- "Devil's advocate / independent board review before publishing"
+- "Validate novelty and risks of this R&D initiative"
+
+**Best used for:** Pre-publication peer review, investment/funding decisions in science & tech, architecture reviews, research proposal validation, and improving the robustness of complex ideas.
 
 ---
 
@@ -204,3 +229,4 @@ See `skills/from-github-addyosmani-agent-skills/README.md` for provenance and up
 - **Draw.io diagrams:** Adapted from [Agents365-ai/drawio-skill](https://github.com/Agents365-ai/drawio-skill)
 - **Engineering lifecycle:** Vendored from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)
 - **Office skills (`docx`, `xlsx`, `pptx`):** Grok built-in document skills
+- **Scientific & Strategic Review Board:** New custom skill for rigorous, board-style critique of research, architecture, and strategic proposals (created via skill-creator)
