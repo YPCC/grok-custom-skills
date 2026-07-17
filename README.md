@@ -1,6 +1,6 @@
 # Grok Custom Skills
 
-Custom skills for [Grok](https://x.ai) (xAI) — healthcare knowledge graphs, responsible AI documentation, office productivity, security review, critical analysis, and production engineering workflows.
+Custom skills for [Grok](https://x.ai) (xAI) — healthcare knowledge graphs, responsible AI documentation, office productivity, security review, critical analysis, publishing workflows, and production engineering.
 
 ## Installation
 
@@ -36,12 +36,44 @@ Invoke skills via slash command (`/<skill-name>`), the skills menu (`/skills`), 
 | Healthcare & KG | `rdf-kg-generator`, `rdf-infographic-skill`, `datacard-generator`, `okf-code2prompt-workflow`, `okf-repo-knowledge-generator` |
 | Diagramming | `drawio-skill` |
 | Office & documents | `docx`, `xlsx`, `pptx` |
+| Publishing | `medium-article-generator` |
 | Security | `python-owasp-reviewer` |
 | Quality, Verification & Review | `check-work`, `code-review`, `scientific-strategic-review-board` |
 | Grok platform | `create-skill`, `help`, `imagine` |
 | Engineering lifecycle | 24 skills in `from-github-addyosmani-agent-skills/` |
 
 See `skills/*/SKILL.md` for full trigger phrases and invocation details.
+
+---
+
+## Publishing
+
+### medium-article-generator
+
+Generate Medium-ready **MHTML** (default) or HTML articles from Markdown that contains LaTeX equations. Equations are automatically rendered as crisp SVG images so they display correctly on Medium (which has no native LaTeX support).
+
+**Key features:**
+- Online path (default): Pandoc `--webtex` → CodeCogs SVG with white background
+- Offline fallback: local `latex` + `dvisvgm` → self-contained data-URI SVGs
+- Always produces standalone HTML with explicit UTF-8 charset (avoids encoding problems with curly quotes / accented characters)
+- Syntax highlighting for fenced code blocks + clean table styling
+- Packages the result as a single self-contained `.mhtml` file by default
+
+**Examples:**
+- "Convert this Markdown article with LaTeX equations into a Medium-ready MHTML"
+- "Render the math in my draft for Medium"
+- "Generate Medium HTML from article.md using offline rendering"
+
+**Quick start:**
+```bash
+python3 skills/medium-article-generator/scripts/generate_medium_html.py article.md
+# → article.mhtml (self-contained)
+
+python3 .../generate_medium_html.py article.md --offline   # local TeX rendering
+python3 .../generate_medium_html.py article.md -o article.html  # plain HTML
+```
+
+**Based on:** The Markdown–Pandoc pipeline described by Sam Vaseghi in *The Quantastic Journal* ("How to Write LaTeX Equations in Medium Articles Automatically", May/June 2026), including the standalone + UTF-8 recommendation.
 
 ---
 
@@ -230,3 +262,4 @@ See `skills/from-github-addyosmani-agent-skills/README.md` for provenance and up
 - **Engineering lifecycle:** Vendored from [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)
 - **Office skills (`docx`, `xlsx`, `pptx`):** Grok built-in document skills
 - **Scientific & Strategic Review Board:** New custom skill for rigorous, board-style critique of research, architecture, and strategic proposals (created via skill-creator)
+- **medium-article-generator:** Inspired by Sam Vaseghi’s Markdown–Pandoc pipeline in *The Quantastic Journal* (May/June 2026)
