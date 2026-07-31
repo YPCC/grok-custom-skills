@@ -1,6 +1,6 @@
 # Grok Custom Skills
 
-Custom skills for [Grok](https://x.ai) (xAI) — healthcare knowledge graphs, responsible AI documentation, office productivity, security review, critical analysis, publishing workflows, and production engineering.
+Custom skills for [Grok](https://x.ai) (xAI) — healthcare knowledge graphs, responsible AI documentation, office productivity, security review, critical analysis, publishing workflows, bibliography integrity, and production engineering.
 
 ## Installation
 
@@ -38,11 +38,49 @@ Invoke skills via slash command (`/<skill-name>`), the skills menu (`/skills`), 
 | Office & documents | `docx`, `xlsx`, `pptx` |
 | Publishing | `medium-article-generator` |
 | Security | `python-owasp-reviewer` |
-| Quality, Verification & Review | `check-work`, `code-review`, `scientific-strategic-review-board` |
+| Quality, Verification & Review | `check-work`, `code-review`, `scientific-strategic-review-board`, `bib-audit` |
 | Grok platform | `create-skill`, `help`, `imagine` |
 | Engineering lifecycle | 24 skills in `from-github-addyosmani-agent-skills/` |
 
 See `skills/*/SKILL.md` for full trigger phrases and invocation details.
+
+---
+
+## Bibliography Integrity
+
+### bib-audit
+
+Flag hallucinated references, authors and bib items, and correct badly formatted ones — in your own draft (before submitting) or a paper you are reviewing. Works from a `.bib` file, a PDF, or a pasted reference list.
+
+**Key features:**
+- Resolves every entry against Crossref, arXiv, DataCite, Semantic Scholar, and OpenAlex
+- Detects fabricated DOIs / arXiv IDs, invented authors, title mismatches, truncated author lists, year drift
+- Recovers canonical publisher BibTeX for drop-in fixes (`--show-bibtex`)
+- Ranks findings P1–P4 (integrity first, formatting last)
+- Mechanical style checks (single-hyphen page ranges, DOI-as-URL, double-braced titles, `J.D.` initials, literal `and others`)
+- Stdlib-only Python scripts; read-only; exits non-zero for CI / pre-submission gates
+- Design bias: a false fabrication accusation is worse than a miss — ambiguous cases stay advisory `[CHECK]`
+
+**Trigger phrases (examples):**
+- "audit my bibliography" / "check citations" / "verify references"
+- "find hallucinated refs" / "is this DOI real?"
+- "fix badly formatted bib entries"
+- "extract bibliography from this PDF and audit it"
+- "gate my pre-submission bibliography"
+
+**Quick start:**
+```bash
+# Preferred path — structured .bib
+python3 skills/bib-audit/scripts/validate_refs.py refs.bib
+python3 skills/bib-audit/scripts/validate_refs.py refs.bib --key somekey --show-bibtex
+
+# Single-title identifier lookup
+python3 skills/bib-audit/scripts/lookup_id.py "Decoupled Weight Decay Regularization" --author Loshchilov
+```
+
+**Example:** `examples/bib-audit/` — sample `.bib` with intentional issues + expected findings table.
+
+**Source:** Adapted from [isaaccorley/skills bib-audit](https://github.com/isaaccorley/skills/tree/main/plugins/bib-audit) (MIT). Formatting rules distilled from John Owens (UC Davis) *Common Errors in Bibliographies* and Henning Schulzrinne (Columbia).
 
 ---
 
@@ -222,6 +260,7 @@ Generate Open Knowledge Format (OKF) bundles for any repository (GitHub URL or l
 | `python-owasp-reviewer` | OWASP Top 10 SAST on Python (FastAPI, Flask, Django); also reviews agent workflows and SKILL.md files |
 | `check-work` | Verify changes with a subagent — `/check-work`, `/verify`, `/self-verify` |
 | `code-review` | Strict maintainability audit — abstraction quality, giant files, spaghetti conditions |
+| `bib-audit` | Bibliography integrity — hallucinated refs, fabricated DOIs, metadata mismatches, style nits |
 
 ---
 
@@ -263,3 +302,4 @@ See `skills/from-github-addyosmani-agent-skills/README.md` for provenance and up
 - **Office skills (`docx`, `xlsx`, `pptx`):** Grok built-in document skills
 - **Scientific & Strategic Review Board:** New custom skill for rigorous, board-style critique of research, architecture, and strategic proposals (created via skill-creator)
 - **medium-article-generator:** Inspired by Sam Vaseghi’s Markdown–Pandoc pipeline in *The Quantastic Journal* (May/June 2026)
+- **bib-audit:** Adapted from [isaaccorley/skills bib-audit](https://github.com/isaaccorley/skills/tree/main/plugins/bib-audit) (MIT); style rules from John Owens (UC Davis) and Henning Schulzrinne (Columbia)
