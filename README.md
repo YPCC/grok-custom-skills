@@ -1,6 +1,6 @@
 # Grok Custom Skills
 
-Custom skills for [Grok](https://x.ai) (xAI) — healthcare knowledge graphs, responsible AI documentation, office productivity, security review, critical analysis, publishing workflows, bibliography integrity, and production engineering.
+Custom skills for [Grok](https://x.ai) (xAI) — healthcare knowledge graphs, responsible AI documentation, office productivity, security review, critical analysis, publishing workflows, bibliography integrity, production engineering, and healthcare consulting presentations.
 
 ## Installation
 
@@ -33,7 +33,7 @@ Invoke skills via slash command (`/<skill-name>`), the skills menu (`/skills`), 
 
 | Category | Skills |
 |----------|--------|
-| Healthcare & KG | `rdf-kg-generator`, `rdf-infographic-skill`, `datacard-generator`, `okf-code2prompt-workflow`, `okf-repo-knowledge-generator` |
+| Healthcare & KG | `rdf-kg-generator`, `rdf-infographic-skill`, `datacard-generator`, `okf-code2prompt-workflow`, `okf-repo-knowledge-generator`, `healthcare-consult-slide-craft` |
 | Diagramming | `drawio-skill` |
 | Office & documents | `docx`, `xlsx`, `pptx` |
 | Publishing | `medium-article-generator` |
@@ -43,6 +43,29 @@ Invoke skills via slash command (`/<skill-name>`), the skills menu (`/skills`), 
 | Engineering lifecycle | 24 skills in `from-github-addyosmani-agent-skills/` |
 
 See `skills/*/SKILL.md` for full trigger phrases and invocation details.
+
+---
+
+## Healthcare Consulting Presentations
+
+### healthcare-consult-slide-craft
+
+Create healthcare consulting presentations, full editable PowerPoint decks, single slides, one-pagers, and professional infographics in a clean MBB hybrid style (McKinsey + BCG + Bain principles). Enforces action titles, Pyramid Principle, SCR storyline, one-message-per-slide, MECE structure, and strict visual discipline.
+
+**Key features:**
+- Default hybrid design system (deep navy + teal) with optional pure McKinsey / BCG / Bain variants
+- Ghost-deck-first workflow (action titles approved before design)
+- Routes multi-slide decks to the `pptx` skill (native editable `.pptx`) and pure visuals to image generation
+- Deep domain references for NIH grant formatting & compliance, NSF PAPPG, Mayo Clinic OSPA workflows, and agentic AI multi-agent architectures for Principal Investigator grant support
+- Critique and Update modes with structured checklists and anti-pattern detection
+
+**Trigger phrases (examples):**
+- "healthcare consulting deck" / "MBB style slides" / "McKinsey healthcare presentation"
+- "BCG healthcare" / "Bain style" / "consulting infographic"
+- "action title slides" / "strategy deck healthcare" / "ghost deck"
+- "grant proposal AI" / "principal investigator tools" / "OSPA grant support"
+
+**References included:** design-system, firm-variants, slide-patterns, critique-checklist, anti-patterns, examples (agentic AI for PIs), nih-grant-formatting, nih-compliance-budgeting (eRA/ASSIST/modular budgets/Single Audit/error codes), nsf-proposal-formatting, mayo-ospa-guidelines, agentic-ai-pi-solution-architecture, sources-and-provenance.
 
 ---
 
@@ -303,3 +326,4 @@ See `skills/from-github-addyosmani-agent-skills/README.md` for provenance and up
 - **Scientific & Strategic Review Board:** New custom skill for rigorous, board-style critique of research, architecture, and strategic proposals (created via skill-creator)
 - **medium-article-generator:** Inspired by Sam Vaseghi’s Markdown–Pandoc pipeline in *The Quantastic Journal* (May/June 2026)
 - **bib-audit:** Adapted from [isaaccorley/skills bib-audit](https://github.com/isaaccorley/skills/tree/main/plugins/bib-audit) (MIT); style rules from John Owens (UC Davis) and Henning Schulzrinne (Columbia)
+- **healthcare-consult-slide-craft:** New custom skill for MBB-style healthcare consulting decks and infographics with deep NIH/NSF/Mayo OSPA grant compliance knowledge and agentic AI PI solution architecture (created via skill-creator)
